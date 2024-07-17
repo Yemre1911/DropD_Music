@@ -70,37 +70,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 @endforeach
                 </ul>
 
-                <h3>Types</h3>
-                <ul class="product-categories color">
-                    <li class="cat-item cat-item-42">
-                        <label>
-                            <input type="radio" name="type" value="Electric Guitar">
-                            Electric
-                        </label>
-                    </li>
-                    <li class="cat-item cat-item-42">
-                        <label>
-                            <input type="radio" name="type" value="Acoustic Guitar">
-                            Acoustic
-                        </label>
-                    </li>
-                </ul>
 
-                <h3>Symmetry</h3>
-                <ul class="product-categories color">
-                    <li class="cat-item cat-item-42">
-                        <label>
-                            <input type="radio" name="symmetry" value="Right-Handed">
-                            Right Handed
-                        </label>
-                    </li>
-                    <li class="cat-item cat-item-42">
-                        <label>
-                            <input type="radio" name="symmetry" value="Left-Handed">
-                            Left Handed
-                        </label>
-                    </li>
-                </ul>
 
                 <h3>Colors</h3>
                 <ul class="product-categories color">
@@ -126,8 +96,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </li>
                     @endforeach
                 </ul>
-
-                <input type="hidden" name="page" value="guitar">
+                <input type="hidden" name="page" value="amp">
 
                 <button type="submit" class="btn btn-primary">Filter & Search</button>
             </form>
@@ -199,32 +168,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 @foreach ($products as $product)
 
 
-                <li class="simpleCart_shelfItem">
-                    <a class="cbp-vm-image" href="{{ route('product.show', $product->model) }}">
-                        <div class="view view-first">
-                            <div class="inner_content clearfix">
-                                <div class="product_image">
-                                    <div class="mask1"><img src="{{ asset('storage/' . $product->main_image) }}" alt="image" class="product-img-fixed"></div>
-                                    <div class="mask">
-                                        <div class="info">Quick View</div>
-                                    </div>
-                                    <div class="product_container">
-                                        <h4>{{ $product->model }}</h4>
-                                        <p>{{ $product->brand }}</p>
-                                        @if ($product->sale)
-                                            <div class="price mount item_price" style="text-decoration: line-through;">${{ $product->price }}</div>
-                                            <div class="sale-price" style="color: red; font-weight: bold;">SALE: ${{ $product->sale }}</div>
-                                        @else
-                                            <div class="price mount item_price">${{ $product->price }}</div>
-                                        @endif
-                                        <a class="button item_add cbp-vm-icon cbp-vm-add" href="#">Add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-
+					  <li class="simpleCart_shelfItem">
+							<a class="cbp-vm-image" href="{{ route('product.show', $product->model) }}">
+							 <div class="view view-first">
+					   		  <div class="inner_content clearfix">
+								<div class="product_image">
+									<div class="mask1"><img src="{{ asset('storage/' .$product->main_image) }}" alt="image" class="product-img-fixed"></div>
+									<div class="mask">
+			                       		<div class="info">Quick View</div>
+					                 </div>
+					                 <div class="product_container">
+									   <h4>{{$product->model}}</h4>
+									   <p>{{$product->brand}}</p>
+									   <div class="price mount item_price">${{$product->price}}</div>
+									   <a class="button item_add cbp-vm-icon cbp-vm-add" href="#">Add to cart</a>
+									 </div>
+								  </div>
+			                     </div>
+		                      </div>
+		                    </a>
+						</li>
                         <!-- ÜRÜN -->
                         @endforeach
 

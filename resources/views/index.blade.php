@@ -5,7 +5,7 @@
     <div class="container">
     	<ul class="content-home">
            <li class="col-sm-4">
-              <a href="single.html" class="item-link" title="">
+              <a href="{{route('guitars_page')}}" class="item-link" title="">
                 <div class="bannerBox">
                    <img src="images/ELECTRO.png" class="item-img" title="" alt="" width="100%" height="100%">
                    <div class="item-html">
@@ -17,7 +17,7 @@
               </a>
            </li>
            <li class="col-sm-4">
-              <a href="single.html" class="item-link" title="">
+              <a href="{{route('guitars_page')}}" class="item-link" title="">
                 <div class="bannerBox">
                    <img src="images/ACOUSTIC.png" class="item-img" title="" alt="" width="100%" height="100%">
                    <div class="item-html">
@@ -29,7 +29,7 @@
               </a>
            </li>
            <li class="col-sm-4">
-              <a href="single.html" class="item-link" title="">
+              <a href="{{route('amps_page')}}" class="item-link" title="">
                 <div class="bannerBox">
                    <img src="images/AMFI.png" class="item-img" title="" alt="" width="100%" height="100%">
                    <div class="item-html">

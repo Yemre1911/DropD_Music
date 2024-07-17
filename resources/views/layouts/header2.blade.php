@@ -114,14 +114,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     </style>
     <div class="header_bottom">
           <div class="logo">
-            @if (Route::currentRouteName() == 'guitars_page')
-                <h1><a href="{{ route('anasayfa') }}"><span class="m_1">G</span>uitars</a></h1>
-            @elseif (Route::currentRouteName() == 'brands_page')
-                <h1><a href="{{ route('anasayfa') }}"><span class="m_1">B</span>rands</a></h1>
-            @else
                 <h1><a href="{{ route('anasayfa') }}"><span class="m_1">D</span>rop-D</a></h1>
-            @endif
-  </div>
+            </div>
   <div class="menu">
     <ul class="megamenu skyblue">
        <li class="active grid"><a class="color2" href="{{route('guitars_page')}}">Guitars</a>
@@ -197,7 +191,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                  </div>
                </div>
        </li>
-       <li><a class="color4" href="#">Amps</a>
+       <li><a class="color4" href="{{route('amps_page')}}">Amps</a>
         <div class="megapanel">
             <div class="row">
                 <div class="col1">
@@ -270,7 +264,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </div>
         </li>
            <li><a class="color10" href="{{route('brands_page')}}">Brands</a></li>
-           <li><a class="color3" href="index.html">Sale</a></li>
+           <li><a class="color3" href="{{route('sale_page')}}">Sale</a></li>
            <li><a class="color7" href="404.html">News</a></li>
            <div class="clearfix"> </div>
        </ul>

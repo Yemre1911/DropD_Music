@@ -34,14 +34,52 @@ class Web_Controller extends Controller
     public function guitars()
     {
         $brands = Brand::all();
-        $products = Product::paginate(6);
+        $products = Product::where('type', '!=', 'Amplifier')->paginate(6);
 
         return view('guitars')->with('brands', $brands)->with('products', $products);
     }
 
+
+    public function amps()
+    {
+        $brands = Brand::all();
+        $products = Product::where('type', '=', 'Amplifier')->paginate(6);
+
+        return view('amps')->with('brands', $brands)->with('products', $products);
+    }
+
+    public function sale()
+    {
+        $brands = Brand::all();
+        $products = Product::whereNotNull('sale')->paginate(6);
+
+        return view('guitars')->with('brands', $brands)->with('products', $products);
+    }
+
+    public function product_show($model)
+    {
+        $brands = Brand::all();
+        $product = Product::all();
+        $main_product = Product::where('model', $model)->firstOrFail();
+        return view('product_show')->with('brands', $brands)->with('products', $product)->with('main_product', $main_product);
+
+    }
+
+
+
     public function filter_guitar(Request $request)
     {
         $query = Product::query();  //query DB'da sorgu yapmayı sağlayan bir komut, kriterleri ona aşağıda yüklüyorum
+
+        if($request->page=='guitar')
+            $query->where('type', '!=', 'Amplifier');   // amfiler hariç
+
+        else if($request->page=='amp')
+            $query->where('type', '=', 'Amplifier');   //  sadece amfilerx"
+
+        //if($request->page=='amp')
+
+
 
         if ($request->has('brands')) {
             $query->whereIn('brand', $request->brands);
@@ -67,7 +105,10 @@ class Web_Controller extends Controller
         $brands= Brand::all();
         $products = $query->paginate(6); // Her sayfada 10 ürün göstermek için
 
+        if($request->page=='guitar' ||$request->page=='brand' )
+            return view('guitars', compact('products','brands'));
 
-        return view('guitars', compact('products','brands'));
-    }
+         if($request->page=='amp')
+            return view('amps', compact('products','brands'));
+        }
 }

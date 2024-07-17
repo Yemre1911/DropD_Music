@@ -199,7 +199,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                  </div>
                </div>
        </li>
-       <li><a class="color4" href="#">Amps</a>
+       <li><a class="color4" href="{{route('amps_page')}}">Amps</a>
            <div class="megapanel">
                <div class="row">
                    <div class="col1">
@@ -272,7 +272,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                </div>
            </li>
            <li><a class="color10" href="{{route('brands_page')}}">Brands</a></li>
-           <li class="active grid"><a class="color3" href="index.html">Sale</a></li>
+           <li class="active grid"><a class="color3" href="{{route('sale_page')}}">Sale</a></li>
            <li><a class="color7" href="404.html">News</a></li>
            <div class="clearfix"> </div>
        </ul>

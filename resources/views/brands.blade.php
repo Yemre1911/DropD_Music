@@ -32,11 +32,15 @@
                     <img src="{{ asset('storage/' . $brand->img) }}" alt=""  class="brand-img"/>
                 </div>
                 <div class="middle-side col-xs-12 col-sm-5">
-                    <h4><a href="#">{{$brand->name}}</a></h4>
+                    <h4>{{$brand->name}}</h4>
                     <p>{{$brand->info}}</p>
                 </div>
                 <div class="right-side col-xs-12 col-sm-4">
-                <a href="#" class="btn btn1 btn-primary btn-normal btn-inline " target="_self">View Products</a>
+                    <form action="{{route('filter_guitar')}}" method="GET">
+                        <input type="hidden" name="page" value="brand">
+                        <input type="hidden" name="brands[]" value="{{ $brand->name }}">
+                        <button type="submit" class="btn btn1 btn-primary btn-normal btn-inline ">View Products</button>
+                    </form>
                 </div>
                 <div class="clearfix"> </div>
             </div>

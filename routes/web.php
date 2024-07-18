@@ -48,34 +48,6 @@ Route::get('/admin', function () {
 
         Route::get('/filter_guitar', [Web_Controller::class, 'filter_guitar'])->name('filter_guitar');
 
-        Route::get('/amps', [Web_Controller::class, 'amps'])->name('amps_page');
-
-        Route::get('/sale', [Web_Controller::class, 'sale'])->name('sale_page');
-
-        Route::get('/cart', [Web_Controller::class, 'cart'])->name('cart_page');
-
-
-        Route::get('/product/{model}', [Web_Controller::class, 'product_show'])->name('product.show');
-
-        Route::get('/register', [Web_Controller::class, 'register'])->name('register_page');
-
-        Route::get('/login', [Web_Controller::class, 'login'])->name('login_page');
-
-        Route::post('/register', [AuthController::class, 'register'])->name('register');
-
-        Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
-
-        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-
-
-
-
-
-
-
-
-
 
 
 

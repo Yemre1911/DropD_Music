@@ -105,31 +105,7 @@ class Web_Controller extends Controller
         $brands= Brand::all();
         $products = $query->paginate(6); // Her sayfada 10 ürün göstermek için
 
-        if($request->page=='guitar' ||$request->page=='brand' )
-            return view('guitars', compact('products','brands'));
 
-         if($request->page=='amp')
-            return view('amps', compact('products','brands'));
-        }
-
-        public function register()
-        {
-            $brand = Brand::all();
-            $product = Product::all();
-            return view('register')->with('products', $product)->with('brands', $brand);
-        }
-
-        public function login()
-        {
-            $brand = Brand::all();
-            $product = Product::all();
-            return view('login')->with('products', $product)->with('brands', $brand);
-        }
-
-        public function cart()
-        {
-            $brand = Brand::all();
-            $product = Product::all();
-            return view('cart')->with('products', $product)->with('brands', $brand);
-        }
+        return view('guitars', compact('products','brands'));
+    }
 }

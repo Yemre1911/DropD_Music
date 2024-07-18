@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Brand_controller;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Web_Controller;
@@ -39,6 +40,8 @@ Route::get('/admin', function () {
 
         Route::post('/add_brand', [Brand_controller::class, 'add_brand'])->name('add_brand');
 
+        //========= WEB ROUTES ====================================================================================
+
         Route::get('/brands', [Web_Controller::class, 'brands'])->name('brands_page');
 
         Route::get('/guitars', [Web_Controller::class, 'guitars'])->name('guitars_page');
@@ -49,7 +52,26 @@ Route::get('/admin', function () {
 
         Route::get('/sale', [Web_Controller::class, 'sale'])->name('sale_page');
 
+        Route::get('/cart', [Web_Controller::class, 'cart'])->name('cart_page');
+
+
         Route::get('/product/{model}', [Web_Controller::class, 'product_show'])->name('product.show');
+
+        Route::get('/register', [Web_Controller::class, 'register'])->name('register_page');
+
+        Route::get('/login', [Web_Controller::class, 'login'])->name('login_page');
+
+        Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+        Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
+
+        Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+
+
+
+
 
 
 

@@ -121,7 +121,14 @@
 		   		    </ul>
 		   		    <div class="clearfix"></div>
 	   		    </div>
-			    <a href="#" class="btn btn-primary btn-normal btn-inline btn_form button item_add item_1" target="_self">Add to cart</a>
+                @auth
+                <a href="{{route('cart_page')}}" class="btn btn-primary btn-normal btn-inline btn_form button item_add item_1" target="_self">Add to cart</a>
+                @endauth
+
+                @guest
+                <a href="{{route('login_page')}}" class="btn btn-primary btn-normal btn-inline btn_form button item_add item_1" target="_self">Add to cart</a>
+                @endguest
+
 			</div>
 		    <div class="clearfix"> </div>
 		</div>
@@ -135,7 +142,7 @@
 	      		<h4><a href="#">quod mazim</a></h4>
 	      		<p class="single_price">$66.30</p>
 	      		<a href="#" class="link-cart">Add to Wishlist</a>
-	      	    <a href="#" class="link-cart">Add to Cart</a>
+	      	    <a href="#" class="link-cart">Add to Cart</a>a
 	        </li>
 	      	<div class="clearfix"> </div>
 	      </ul>

@@ -111,4 +111,25 @@ class Web_Controller extends Controller
          if($request->page=='amp')
             return view('amps', compact('products','brands'));
         }
+
+        public function register()
+        {
+            $brand = Brand::all();
+            $product = Product::all();
+            return view('register')->with('products', $product)->with('brands', $brand);
+        }
+
+        public function login()
+        {
+            $brand = Brand::all();
+            $product = Product::all();
+            return view('login')->with('products', $product)->with('brands', $brand);
+        }
+
+        public function cart()
+        {
+            $brand = Brand::all();
+            $product = Product::all();
+            return view('cart')->with('products', $product)->with('brands', $brand);
+        }
 }

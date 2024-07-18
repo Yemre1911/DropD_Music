@@ -52,13 +52,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="men_banner">
     <div class="container">
         <div class="header_top">
+            @auth
            <div class="header_top_left">
-           <div class="box_11"><a href="checkout.html">
+           <div class="box_11"><a href="{{route('cart_page')}}">
          <h4><p>Cart: <span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)</p><img src="images/bag.png" alt=""/><div class="clearfix"> </div></h4>
          </a></div>
          <p class="empty"><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
          <div class="clearfix"> </div>
       </div>
+      @endauth
+
+
+
       <div class="header_top_right">
           <div class="lang_list">
            <select tabindex="4" class="dropdown">
@@ -67,13 +72,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                <option value="2">Euro</option>
            </select>
         </div>
+        @guest
         <ul class="header_user_info">
-         <a class="login" href="login.html">
+         <a class="login" href="{{route('login_page')}}">
            <i class="user"> </i>
            <li class="user_desc">My Account</li>
          </a>
          <div class="clearfix"> </div>
         </ul>
+        @endguest
+
+        @auth
+        <ul class="header_user_info">
+            <a class="login" href="{{route('cart_page')}}">
+              <i class="user"> </i>
+              <li class="user_desc">Welcome {{Auth::user()->first_name}}</li>
+            </a>
+            <div class="clearfix"> </div>
+           </ul>
+        @endauth
        <!-- start search-->
            <div class="search-box">
               <div id="sb-search" class="sb-search">

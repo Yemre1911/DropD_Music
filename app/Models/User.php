@@ -17,9 +17,18 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'phone',
+        'address',
+        'city',
+        'state',
+        'zip_code',
+        'country',
+        'is_admin',
+
     ];
 
     /**
@@ -50,4 +59,13 @@ class User extends Authenticatable
     {
         return $this->role === 'admin'; // Örnek olarak 'role' kolonunu admin olarak tanımladık.
     }
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+        // bu fonksiyon user ve cart modellerinin birebir ilişkiye sahip olduklarını gösteriyor
+        // her kullanıcının bir sepeti ve her sepetin bir sahibi olabilir anlamında
+    }
+
+
 }

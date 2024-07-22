@@ -25,7 +25,7 @@ class Admin extends Controller
 
         // Kimlik doğrulama girişimi
         $credentials = [
-            'name' => $request->username, // 'name' sütununu 'username' alanından alıyoruz
+            'first_name' => $request->username, // 'name' sütununu 'username' alanından alıyoruz
             'password' => $request->password
         ];
 
@@ -38,9 +38,30 @@ class Admin extends Controller
         return redirect()->back()->with('error', 'Invalid credentials')->withInput();
     }
 
+
+    public function logout()
+    {
+        if($this->isAdmin()) {
+
+            auth()->logout();
+            request()->session()->invalidate();          // geçersiz kılmak, şu anki oturumu
+            request()->session()->regenerateToken();    //csrf tokenini yeniler, günvelik için yapılır
+
+            return redirect()->route('admin_login');
+        }
+        else {
+            return redirect()->route('admin_login');
+        }
+
+    }
     public function index()
     {
-        return view('admin/index_admin');
+        if($this->isAdmin()) {
+            return view('admin/index_admin');
+        } else {
+            return redirect()->route('admin_login');
+        }
+
     }
 
     public function products()
@@ -48,31 +69,65 @@ class Admin extends Controller
         $brands = Brand::all();
         $products = Product::all();
 
-        return view('admin/products_admin')->with('brands', $brands)->with('products', $products);
+        if($this->isAdmin()) {
+            return view('admin/products_admin')->with('brands', $brands)->with('products', $products);
+        } else {
+            return redirect()->route('admin_login');
+        }
+
 
     }
 
     public function accounts()
     {
-        return view('admin/admin_accounts');
+        if($this->isAdmin()) {
+            return view('admin/admin_accounts');
+        } else {
+            return redirect()->route('admin_login');
+        }
     }
 
     public function edit_product($id)
     {
         $productID = Product::find($id);
         $brands = Brand::all();
-        return view('admin/admin_edit_products')->with('productID', $productID)->with('brands', $brands);
+
+        if($this->isAdmin()) {
+            return view('admin/admin_edit_products')->with('productID', $productID)->with('brands', $brands);
+        } else {
+            return redirect()->route('admin_login');
+        }
     }
 
     public function add_product()
     {
         $brands = Brand::all();
 
-        return view('admin/admin_add_product', compact('brands'));
+        if($this->isAdmin()) {
+            return view('admin/admin_add_product', compact('brands'));
+        } else {
+            return redirect()->route('admin_login');
+        }
+
     }
 
     public function add_brand()
     {
-        return view('admin/admin_add_brand');
+        if($this->isAdmin()) {
+            return view('admin/admin_add_brand');
+        } else {
+            return redirect()->route('admin_login');
+        }
+    }
+
+    public function isAdmin()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->is_admin) {
+                return true;
+            }
+        }
+        return false;
     }
 }

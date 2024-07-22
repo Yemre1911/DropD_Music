@@ -1,70 +1,81 @@
 @include('layouts.header2', ['brands' => $brands, 'products' => $products]);
+<style>
+    .close {
+        background-color: #ff0000; /* Kırmızı arka plan rengi */
+        color: white; /* Beyaz yazı rengi */
+        border: none;
+        padding: 10px 20px; /* Buton boyutunu artırmak için padding */
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px; /* Yazı boyutunu artırma */
+    }
 
+    .close:hover {
+        background-color: #ff1a1a; /* Hover durumu için daha koyu kırmızı */
+    }
+</style>
    <div class="account-in">
    	 <div class="container">
 		  <div class="check_box">
 		<div class="col-md-9 cart-items">
-			 <h1>My Shopping Bag (2)</h1>
-				<script>$(document).ready(function(c) {
-					$('.close1').on('click', function(c){
-						$('.cart-header').fadeOut('slow', function(c){
-							$('.cart-header').remove();
-						});
-						});
-					});
-			   </script>
-			 <div class="cart-header">
-				 <div class="close1"> </div>
-				   <div class="cart-sec simpleCart_shelfItem">
-						<div class="cart-item cyc">
-							 <img src="images/m3.jpg" class="img-responsive" alt=""/>
-						</div>
-					   <div class="cart-item-info">
-						<h3><a href="#">Mountain Hopper(XS R034)</a><span>Model No: 3578</span></h3>
-						<ul class="qty">
-							<li><p>Size : 5</p></li>
-							<li><p>Qty : 1</p></li>
-						</ul>
-						<div class="delivery">
-							 <p>Service Charges : Rs.100.00</p>
-							 <span>Delivered in 2-3 business days</span>
-							 <div class="clearfix"></div>
-				        </div>
-					   </div>
-					   <div class="clearfix"></div>
-				    </div>
-			 </div>
-			 <script>$(document).ready(function(c) {
-					$('.close2').on('click', function(c){
-							$('.cart-header2').fadeOut('slow', function(c){
-						$('.cart-header2').remove();
-					});
-					});
-					});
-			 </script>
-			 <div class="cart-header2">
-				 <div class="close2"> </div>
-				  <div class="cart-sec simpleCart_shelfItem">
-						<div class="cart-item cyc">
-							 <img src="images/m4.jpg" class="img-responsive" alt=""/>
-						</div>
-					   <div class="cart-item-info">
-						<h3><a href="#">Mountain Hopper(XS R034)</a><span>Model No: 3578</span></h3>
-						<ul class="qty">
-							<li><p>Size : 5</p></li>
-							<li><p>Qty : 1</p></li>
-						</ul>
-							 <div class="delivery">
-							 <p>Service Charges : Rs.100.00</p>
-							 <span>Delivered in 2-3 business days</span>
-							 <div class="clearfix"></div>
-				        </div>
-					   </div>
-					   <div class="clearfix"></div>
-				  </div>
-			  </div>
-		 </div>
-		 <div class="col-md-3 cart-total">
+            @php
+                $totalPrice=0;
+            @endphp
+            @auth
+        @if ($cart)
+            <h1>My Shopping Bag ({{ $cart->items->count() }})</h1>
+
+            @foreach ($cart->items as $item)
+
+            @php
+                $totalPrice += $item->product->price * $item->quantity;
+            @endphp
+                <div class="cart-header">
+                    <<div class="close" data-item-id="{{ $item->id }}"> &#10006; </div>
+                    <div class="cart-sec simpleCart_shelfItem">
+                        <div class="cart-item cyc">
+                            <a class="cbp-vm-image" href="{{ route('product.show', $item->product->model) }}">
+                            <img src="{{ asset('storage/' . $item->product->main_image) }}" class="img-responsive" alt=""/>
+                        </div>
+                        <div class="cart-item-info">
+                            <h3><a href="#">{{ $item->product->name }}</a><span>Model No: {{ $item->product->model }}</span></h3>
+                            <ul class="qty">
+                                <li><p>Qty : {{ $item->quantity }}</p></li>
+                            </ul>
+                            <div class="delivery">
+                                <p>Price : ${{ $item->product->price }}</p>
+                                <span>Delivered in 2-3 business days</span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            @endforeach
+
+        @else
+            <h1>My Shopping Bag (0)</h1>
+        @endif
+    @endauth
+
+    <script>
+        $(document).ready(function() {
+            $('.close').on('click', function() {
+                var itemId = $(this).data('item-id');
+                $.ajax({
+                    url: '/cart/remove',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        item_id: itemId
+                    },
+                    success: function(response) {
+                        location.reload(); // Sayfayı yenileyerek güncellenmiş sepeti göster
+                    }
+                });
+            });
+        });
+    </script>
 
         </head>
         <body>
@@ -83,16 +94,13 @@
 			 <div class="price-details">
 				 <h3>Price Details</h3>
 				 <span>Total</span>
-				 <span class="total1">6200.00</span>
+				 <span class="total1">{{$totalPrice}}</span>
 				 <span>Discount</span>
 				 <span class="total1">---</span>
-				 <span>Delivery Charges</span>
-				 <span class="total1">150.00</span>
-				 <div class="clearfix"></div>
 			 </div>
 			 <ul class="total_price">
 			   <li class="last_price"> <h4>TOTAL</h4></li>
-			   <li class="last_price"><span>6350.00</span></li>
+			   <li class="last_price"><span>{{$totalPrice}}</span></li>
 			   <div class="clearfix"> </div>
 			 </ul>
 			 <div class="clearfix"></div>

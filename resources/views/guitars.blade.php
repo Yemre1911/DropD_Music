@@ -217,7 +217,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         @else
                                             <div class="price mount item_price">${{ $product->price }}</div>
                                         @endif
-                                        <a class="button item_add cbp-vm-icon cbp-vm-add" href="#">Add to cart</a>
+
+                                        <!-- ADD TO CART FORM İŞLEMLERİ -->
+                                            <form action="{{route('cart_add')}}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                <button class="button item_add cbp-vm-icon cbp-vm-add" type="submit">Add to cart<button>
+                                            </form>
                                     </div>
                                 </div>
                             </div>

@@ -62,7 +62,7 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link d-block" href="{{route('admin_login')}}">
+                    <a class="nav-link d-block" href="{{route('admin_logout')}}">
                         Admin, <b>Logout</b>
                     </a>
                 </li>

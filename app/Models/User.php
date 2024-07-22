@@ -50,15 +50,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Check if the user is an admin.
-     *
-     * @return bool
-     */
-    public function isAdmin()
-    {
-        return $this->role === 'admin'; // Örnek olarak 'role' kolonunu admin olarak tanımladık.
-    }
 
     public function cart()
     {

@@ -55,9 +55,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             @auth
            <div class="header_top_left">
            <div class="box_11"><a href="{{route('cart_page')}}">
-         <h4><p>Cart: <span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)</p><img src="images/bag.png" alt=""/><div class="clearfix"> </div></h4>
-         </a></div>
-         <p class="empty"><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+            <h4>
+                <p>Cart:
+                    @if(Auth::user() && Auth::user()->cart)
+                        {{ Auth::user()->cart->items->count() }} items
+                    @else
+                        0 items
+                    @endif
+                </p>
+                <img src="images/bag.png" alt=""/>
+                <div class="clearfix"> </div>
+            </h4>          </a></div>
          <div class="clearfix"> </div>
       </div>
       @endauth
@@ -146,7 +154,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             $electricGuitars = $products->where('type', 'Electric Guitar')->sortByDesc('id')->take(5);
                             @endphp
                             @foreach ($electricGuitars as $product)
-                                <li><a href="men.html">{{$product->model}}</a></li>
+                                <li><a href="{{ route('product.show', $product->model) }}">{{$product->model}}</a></li>
                            @endforeach
 
                        </ul>
@@ -160,7 +168,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             $acousticGuitars = $products->where('type', 'Acoustic Guitar')->sortByDesc('id')->take(5);
                             @endphp
                             @foreach ($acousticGuitars as $product)
-                                <li><a href="men.html">{{$product->model}}</a></li>
+                                <li><a href="{{ route('product.show', $product->model) }}">{{$product->model}}</a></li>
                            @endforeach
                            </ul>
                        </div>
@@ -219,7 +227,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                          $amps1 = $products->where('type', 'Amplifier')->sortByDesc('id')->take(5);
                          @endphp
                          @foreach ($amps1 as $product)
-                             <li><a href="men.html">{{$product->model}}</a></li>
+                             <li><a href="{{ route('product.show', $product->model) }}">{{$product->model}}</a></li>
                         @endforeach
                         </ul>
                     </div>
@@ -232,7 +240,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                          $amps2 = $products->where('type', 'Amplifier')->sortByDesc('id')->take(5);
                          @endphp
                          @foreach ($amps2 as $product)
-                             <li><a href="men.html">{{$product->model}}</a></li>
+                             <li><a href="{{ route('product.show', $product->model) }}">{{$product->model}}</a></li>
                         @endforeach
                         </ul>
                     </div>

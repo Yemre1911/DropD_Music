@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Brand_controller;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Web_Controller;
 
@@ -74,6 +75,9 @@ Route::get('/show_temp', function () {
         Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
 
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+        Route::post('products/{product}/comments', [CommentController::class, 'store'])->middleware('auth');
+
 
 
 

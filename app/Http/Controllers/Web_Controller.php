@@ -65,6 +65,22 @@ class Web_Controller extends Controller
 
     }
 
+    public function login()
+    {
+        $brands = Brand::all();
+        $product = Product::all();
+        return view('login')->with('brands', $brands)->with('products', $product);
+
+    }
+
+    public function register()
+    {
+        $brands = Brand::all();
+        $product = Product::all();
+        return view('register')->with('brands', $brands)->with('products', $product);
+
+    }
+
 
 
     public function filter_guitar(Request $request)

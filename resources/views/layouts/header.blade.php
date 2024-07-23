@@ -151,6 +151,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
     </style>
 
+
+
      <div class="menu">
     <ul class="megamenu skyblue">
        <li><a class="color2" href="{{route('guitars_page')}}">Guitars</a>
@@ -186,41 +188,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                    <div class="col2">
                        <div class="h_nav">
                            <h4>Trends</h4>
+                           @php
+                            $trends = $products->where('type', 'Electric Guitar')->sortByDesc('id')->take(3);
+                            @endphp
+                            @foreach ($trends as $trend)
                            <ul>
                                <li class>
                                    <div class="p_left">
-                                     <img src="images/p1.jpg" class="img-responsive" alt=""/>
+                                     <img src="{{ url('storage/' . $trend->main_image) }}" class="img-responsive" alt=""/>
                                    </div>
                                    <div class="p_right">
-                                       <h4><a href="#">Denim shirt</a></h4>
-                                       <span class="item-cat"><small><a href="#">watches</a></small></span>
-                                       <span class="price">29.99 $</span>
-                                   </div>
-                                   <div class="clearfix"> </div>
-                               </li>
-                               <li>
-                                   <div class="p_left">
-                                     <img src="images/p2.jpg" class="img-responsive" alt=""/>
-                                   </div>
-                                   <div class="p_right">
-                                       <h4><a href="#">Denim shirt</a></h4>
-                                       <span class="item-cat"><small><a href="#">watches</a></small></span>
-                                       <span class="price">29.99 $</span>
-                                   </div>
-                                   <div class="clearfix"> </div>
-                               </li>
-                               <li>
-                                   <div class="p_left">
-                                     <img src="images/p3.jpg" class="img-responsive" alt=""/>
-                                   </div>
-                                   <div class="p_right">
-                                       <h4><a href="#">Denim shirt</a></h4>
-                                       <span class="item-cat"><small><a href="#">watches</a></small></span>
-                                       <span class="price">29.99 $</span>
+                                       <h4><a href="{{ route('product.show', $trend->model) }}">{{$trend->model}}t</a></h4>
+                                       <span class="price">${{$trend->price}}</span>
                                    </div>
                                    <div class="clearfix"> </div>
                                </li>
                            </ul>
+                           @endforeach
                        </div>
                    </div>
                  </div>
@@ -258,41 +242,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                    <div class="col2">
                        <div class="h_nav">
                            <h4>Trends</h4>
-                           <ul>
-                               <li class>
-                                   <div class="p_left">
-                                     <img src="images/p1.jpg" class="img-responsive" alt=""/>
-                                   </div>
-                                   <div class="p_right">
-                                       <h4><a href="#">Denim shirt</a></h4>
-                                       <span class="item-cat"><small><a href="#">watches</a></small></span>
-                                       <span class="price">29.99 $</span>
-                                   </div>
-                                   <div class="clearfix"> </div>
-                               </li>
-                               <li>
-                                   <div class="p_left">
-                                     <img src="images/p2.jpg" class="img-responsive" alt=""/>
-                                   </div>
-                                   <div class="p_right">
-                                       <h4><a href="#">Denim shirt</a></h4>
-                                       <span class="item-cat"><small><a href="#">watches</a></small></span>
-                                       <span class="price">29.99 $</span>
-                                   </div>
-                                   <div class="clearfix"> </div>
-                               </li>
-                               <li>
-                                   <div class="p_left">
-                                     <img src="images/p3.jpg" class="img-responsive" alt=""/>
-                                   </div>
-                                   <div class="p_right">
-                                       <h4><a href="#">Denim shirt</a></h4>
-                                       <span class="item-cat"><small><a href="#">watches</a></small></span>
-                                       <span class="price">29.99 $</span>
-                                   </div>
-                                   <div class="clearfix"> </div>
-                               </li>
-                           </ul>
+                           @php
+                           $trends = $products->where('type', 'Amplifier')->sortByDesc('id')->take(3);
+                           @endphp
+                           @foreach ($trends as $trend)
+                          <ul>
+                              <li class>
+                                  <div class="p_left">
+                                    <img src="{{ url('storage/' . $trend->main_image) }}" class="img-responsive" alt=""/>
+                                  </div>
+                                  <div class="p_right">
+                                      <h4><a href="{{ route('product.show', $trend->model) }}">{{$trend->model}}t</a></h4>
+                                      <span class="price">${{$trend->price}}</span>
+                                  </div>
+                                  <div class="clearfix"> </div>
+                              </li>
+                          </ul>
+                          @endforeach
                        </div>
                    </div>
                  </div>

@@ -94,13 +94,13 @@
 			 <div class="price-details">
 				 <h3>Price Details</h3>
 				 <span>Total</span>
-				 <span class="total1">{{$totalPrice}}</span>
+				 <span class="total1">${{$totalPrice}}</span>
 				 <span>Discount</span>
 				 <span class="total1">---</span>
 			 </div>
 			 <ul class="total_price">
 			   <li class="last_price"> <h4>TOTAL</h4></li>
-			   <li class="last_price"><span>{{$totalPrice}}</span></li>
+			   <li class="last_price"><span>${{$totalPrice}}</span></li>
 			   <div class="clearfix"> </div>
 			 </ul>
 			 <div class="clearfix"></div>

@@ -138,54 +138,63 @@
 		</div>
 
 		</div>
+
 		<div class="col-md-3 tabs">
 	      <h3 class="m_1">Related Products</h3>
-	      <ul class="product">
-	      	<li class="product_img"><img src="images/m5.jpg" class="img-responsive" alt=""/></li>
-	      	<li class="product_desc">
-	      		<h4><a href="#">quod mazim</a></h4>
-	      		<p class="single_price">$66.30</p>
-	      		<a href="#" class="link-cart">Add to Wishlist</a>
-	      	    <a href="#" class="link-cart">Add to Cart</a>a
-	        </li>
-	      	<div class="clearfix"> </div>
-	      </ul>
-	      <ul class="product">
-	      	<li class="product_img"><img src="images/m6.jpg" class="img-responsive" alt=""/></li>
-	      	<li class="product_desc">
-	      		<h4><a href="#">quod mazim</a></h4>
-	      		<p class="single_price">$66.30</p>
-	      		<a href="#" class="link-cart">Add to Wishlist</a>
-	      	    <a href="#" class="link-cart">Add to Cart</a>
-	        </li>
-	      	<div class="clearfix"> </div>
-	      </ul>
-	      <ul class="product">
-	      	<li class="product_img"><img src="images/m2.jpg" class="img-responsive" alt=""/></li>
-	      	<li class="product_desc">
-	      		<h4><a href="#">quod mazim</a></h4>
-	      		<p class="single_price">$66.30</p>
-	      		<a href="#" class="link-cart">Add to Wishlist</a>
-	      	    <a href="#" class="link-cart">Add to Cart</a>
-	        </li>
-	      	<div class="clearfix"> </div>
-	      </ul>
-	      <ul class="product">
-	      	<li class="product_img"><img src="images/m3.jpg" class="img-responsive" alt=""/></li>
-	      	<li class="product_desc">
-	      		<h4><a href="#">quod mazim</a></h4>
-	      		<p class="single_price">$66.30</p>
-	      		<a href="#" class="link-cart">Add to Wishlist</a>
-	      	    <a href="#" class="link-cart">Add to Cart</a>
-	        </li>
-	      	<div class="clearfix"> </div>
-	      </ul>
+          @php
+              $relateds = $products->where('brand', $main_product->brand)->sortByDesc('id')->take(8);
+          @endphp
+            @foreach ($relateds as $related)
+
+            <ul class="product">
+                <li class="product_img"><img src="{{ asset ('storage/'. $related->main_image) }}" class="img-responsive" alt=""/></li>
+                <li class="product_desc">
+                    <h4><a href="{{ route('product.show', $related->model) }}">{{$related->model}}</a></h4>
+                    <p class="single_price">${{$related->price}}</p>
+                </li>
+                <div class="clearfix"> </div>
+            </ul>
+            <br><br>
+          @endforeach
+
         </div>
      <div class="clearfix"> </div>
 	</div>
    </div>
+
   <div class="footer">
    	 <div class="container">
+         <!-- COMMENT SECTİON -->
+
+         <div class="comments-section">
+            <h2>Yorumlar</h2> <br>
+            @foreach($main_product->comments as $comment)
+            <div class="comment">
+                <p><strong>{{ $comment->user->first_name }}:</strong> {{ $comment->comment }}</p>
+                <small>{{ $comment->created_at->format('d.m.Y H:i') }}</small>
+            </div>
+            <br><br>
+            @endforeach
+
+            @auth
+            <form action="{{ url('products/' . $main_product->id . '/comments') }}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <br><br>
+                    <label for="comment">Yorum Yap:</label>
+                    <textarea name="comment" id="comment" class="form-control" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Yorum Ekle</button>
+            </form>
+            @endauth
+
+            @guest
+                <br> <br>
+                <p>Yorum yapmak için <a href="{{ route('login_page') }}"> Buradan giriş yapmalısınız</a>!</p>
+            @endguest
+        </div>
+
+        <!-- COMMENT SECTİON -->
    	 	<div class="newsletter">
 			<h3>Newsletter</h3>
 			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard</p>

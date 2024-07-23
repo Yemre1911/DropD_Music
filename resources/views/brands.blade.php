@@ -51,49 +51,54 @@
         </div>
 
 		</div>
-		<div class="col-md-3 tabs">
-	      <h3 class="m_1">Related Products</h3>
-	      <ul class="product">
-	      	<li class="product_img"><img src="images/m5.jpg" class="img-responsive" alt=""/></li>
-	      	<li class="product_desc">
-	      		<h4><a href="#">quod mazim</a></h4>
-	      		<p class="single_price">$66.30</p>
-	      		<a href="#" class="link-cart">Add to Wishlist</a>
-	      	    <a href="#" class="link-cart">Add to Cart</a>
-	        </li>
-	      	<div class="clearfix"> </div>
-	      </ul>
-	      <ul class="product">
-	      	<li class="product_img"><img src="images/m6.jpg" class="img-responsive" alt=""/></li>
-	      	<li class="product_desc">
-	      		<h4><a href="#">quod mazim</a></h4>
-	      		<p class="single_price">$66.30</p>
-	      		<a href="#" class="link-cart">Add to Wishlist</a>
-	      	    <a href="#" class="link-cart">Add to Cart</a>
-	        </li>
-	      	<div class="clearfix"> </div>
-	      </ul>
-	      <ul class="product">
-	      	<li class="product_img"><img src="images/m2.jpg" class="img-responsive" alt=""/></li>
-	      	<li class="product_desc">
-	      		<h4><a href="#">quod mazim</a></h4>
-	      		<p class="single_price">$66.30</p>
-	      		<a href="#" class="link-cart">Add to Wishlist</a>
-	      	    <a href="#" class="link-cart">Add to Cart</a>
-	        </li>
-	      	<div class="clearfix"> </div>
-	      </ul>
-	      <ul class="product">
-	      	<li class="product_img"><img src="images/m3.jpg" class="img-responsive" alt=""/></li>
-	      	<li class="product_desc">
-	      		<h4><a href="#">quod mazim</a></h4>
-	      		<p class="single_price">$66.30</p>
-	      		<a href="#" class="link-cart">Add to Wishlist</a>
-	      	    <a href="#" class="link-cart">Add to Cart</a>
-	        </li>
-	      	<div class="clearfix"> </div>
-	      </ul>
-        </div>
+
+        <!-- TRENDS -->
+        <style>
+            .img-responsive {
+                width: 100%;  /* %100 genişlikte olmasını sağlar */
+                max-width: 150px;  /* Maksimum genişliği belirler */
+                height: auto;  /* Orantılı olarak yüksekliği ayarlar */
+                object-fit: cover;  /* Görselin kutuya sığmasını sağlar, keserek */
+                display: block;  /* Görselin bir blok eleman olmasını sağlar */
+                margin: 0 auto;  /* Ortalar */
+            }
+            .product {
+                list-style-type: none;  /* Madde işaretlerini kaldırır */
+                padding: 0;
+                margin: 0 0 20px 0;  /* Alt kısma boşluk ekler */
+            }
+            .product li {
+                float: left;  /* Elemanları sola hizalar */
+                margin-right: 10px;  /* Sağ tarafa boşluk ekler */
+            }
+            .product_desc {
+                float: left;  /* Metni sola hizalar */
+                max-width: calc(100% - 160px);  /* Görselin genişliğini hesaba katar */
+            }
+            .clearfix {
+                clear: both;  /* Float elemanlarının etkisini kaldırır */
+            }
+        </style>
+        <div class="col-md-3 tabs">
+            <h3 class="m_1">Trend Products</h3>
+              @php
+              $trends = $products->sortByDesc('id')->take(8);
+              @endphp
+              @foreach ($trends as $trend)
+            <ul class="product">
+              <li class="left-side col-xs-12 col-sm-3"><img src="{{ url('storage/' . $trend->main_image) }}" class="img-responsive" alt=""/></li>
+              <li class="product_desc">
+                  <h4><a href="{{ route('product.show', $trend->model) }}">{{$trend->model}}</a></h4>
+                  <p class="single_price">${{$trend->price}}</p>
+              </li>
+              <br><br><br>
+              <div class="clearfix"> </div>
+            </ul>
+            @endforeach
+          </div>
+
+          <!-- TRENDS -->
+
      <div class="clearfix"> </div>
 	</div>
    </div>

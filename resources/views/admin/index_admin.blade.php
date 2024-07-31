@@ -3,6 +3,17 @@
 
 @include('admin.admin_header');
 
+<style>
+    .brand-img {
+        width: 90%;  /* %100 genişlikte olmasını sağlar */
+        max-width: 75px;  /* Maksimum genişliği belirler */
+        height: auto;  /* Orantılı olarak yüksekliği ayarlar */
+        object-fit: cover;  /* Görselin kutuya sığmasını sağlar, keserek */
+        display: block;  /* Görselin bir blok eleman olmasını sağlar */
+        margin: 0 auto;  /* Ortalar */
+    }
+    </style>
+
 <body id="reportsPage">
     <div class="" id="home">
         @include('admin.admin_nav');
@@ -16,21 +27,91 @@
             <div class="row tm-content-row">
                 <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
                     <div class="tm-bg-primary-dark tm-block">
-                        <h2 class="tm-block-title">Latest Hits</h2>
-                        <canvas id="lineChart"></canvas>
+                        <h2 class="tm-block-title">Total Reports</h2>
+                        <div class="tm-notification-items">
+
+                        <div class="media tm-notification-item">
+                            <div class="media-body">
+                                <p class="mb-2"><b>Total User: {{$users->count()}}</b></p>
+                                <span class="tm-small tm-text-color-secondary">There are {{$users->count()}} accounts in Drop-D</span>
+                            </div>
+                        </div>
+
+                        <div class="media tm-notification-item">
+                            <div class="media-body">
+                                <p class="mb-2"><b>Total Products: {{$products->count()}}</b></p>
+                                <span class="tm-small tm-text-color-secondary">There are {{$products->count()}} products in Drop-D</span>
+                            </div>
+                        </div>
+
+                        <div class="media tm-notification-item">
+                            <div class="media-body">
+                                <p class="mb-2"><b>Total Brands: {{$brands->count()}}</b></p>
+                                <span class="tm-small tm-text-color-secondary">There are {{$brands->count()}} brands in Drop-D</span>
+                            </div>
+                        </div>
+
+                        <div class="media tm-notification-item">
+                            <div class="media-body">
+                                @php
+                                    $totalIncome = 0;
+                                    foreach ($orders as $order) {
+                                        $totalIncome += $order->total_amount;
+                                    }
+                                @endphp
+                                <p class="mb-2"><b>Total Orders And Income: {{$orders->count()}} = ${{$totalIncome}} </b></p>
+                                <span class="tm-small tm-text-color-secondary">We have made ${{$totalIncome}} dollars total with Drop-D</span>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
                     <div class="tm-bg-primary-dark tm-block">
-                        <h2 class="tm-block-title">Performance</h2>
-                        <canvas id="barChart"></canvas>
+                        <h2 class="tm-block-title">Out Of Stock</h2>
+                        <div class="tm-notification-items">
+
+                        @foreach ($products as $product)
+
+                        @if ($product->stock ==0)
+
+                        <div class="media tm-notification-item">
+                            <div class="brand-img"><img src=" {{ asset('storage/' . $product->main_image) }} " alt="Avatar Image" class="brand-img"></div>
+                            <div class="media-body">
+                                <p class="mb-2"><b>{{$product->model}}</b></p>
+                                <span class="color" style="color: red; font-weight: bold;">Out of Sotck</span>
+                                <span class="tm-small tm-text-color-secondary">{{$product->updated_at}}</span>
+                            </div>
+                        </div>
+
+                        @endif
+
+
+                        @endforeach
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
-                    <div class="tm-bg-primary-dark tm-block tm-block-taller">
-                        <h2 class="tm-block-title">Storage Information</h2>
-                        <div id="pieChartContainer">
-                            <canvas id="pieChart" class="chartjs-render-monitor" width="200" height="200"></canvas>
+                    <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-overflow">
+                        <h2 class="tm-block-title">Products With Low tock</h2>
+                        <div class="tm-notification-items">
+                            @foreach ($products as $product)
+
+                            @if ($product->stock <=5 && $product->stock > 0 )
+
+                            <div class="media tm-notification-item">
+                                <div class="brand-img"><img src=" {{ asset('storage/' . $product->main_image) }} " alt="Avatar Image" class="brand-img"></div>
+                                <div class="media-body">
+                                    <p class="mb-2">{{$product->model}}</p>
+                                    <p class="mb-2">Only <b>{{$product->stock}} Left in Stock</b></p>
+                                    <span class="tm-small tm-text-color-secondary">{{$product->updated_at}}</span>
+                                </div>
+                            </div>
+
+                            @endif
+
+
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -38,229 +119,48 @@
                     <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-overflow">
                         <h2 class="tm-block-title">Notification List</h2>
                         <div class="tm-notification-items">
-                            <div class="media tm-notification-item">
-                                <div class="tm-gray-circle"><img src="img/notification-01.jpg" alt="Avatar Image" class="rounded-circle"></div>
-                                <div class="media-body">
-                                    <p class="mb-2"><b>Jessica</b> and <b>6 others</b> sent you new <a href="#"
-                                            class="tm-notification-link">product updates</a>. Check new orders.</p>
-                                    <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                </div>
-                            </div>
-                            <div class="media tm-notification-item">
-                                <div class="tm-gray-circle"><img src="img/notification-02.jpg" alt="Avatar Image" class="rounded-circle"></div>
-                                <div class="media-body">
-                                    <p class="mb-2"><b>Oliver Too</b> and <b>6 others</b> sent you existing <a href="#"
-                                            class="tm-notification-link">product updates</a>. Read more reports.</p>
-                                    <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                </div>
-                            </div>
-                            <div class="media tm-notification-item">
-                                <div class="tm-gray-circle"><img src="img/notification-03.jpg" alt="Avatar Image" class="rounded-circle"></div>
-                                <div class="media-body">
-                                    <p class="mb-2"><b>Victoria</b> and <b>6 others</b> sent you <a href="#"
-                                            class="tm-notification-link">order updates</a>. Read order information.</p>
-                                    <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                </div>
-                            </div>
-                            <div class="media tm-notification-item">
-                                <div class="tm-gray-circle"><img src="img/notification-01.jpg" alt="Avatar Image" class="rounded-circle"></div>
-                                <div class="media-body">
-                                    <p class="mb-2"><b>Laura Cute</b> and <b>6 others</b> sent you <a href="#"
-                                            class="tm-notification-link">product records</a>.</p>
-                                    <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                </div>
-                            </div>
-                            <div class="media tm-notification-item">
-                                <div class="tm-gray-circle"><img src="img/notification-02.jpg" alt="Avatar Image" class="rounded-circle"></div>
-                                <div class="media-body">
-                                    <p class="mb-2"><b>Samantha</b> and <b>6 others</b> sent you <a href="#"
-                                            class="tm-notification-link">order stuffs</a>.</p>
-                                    <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                </div>
-                            </div>
-                            <div class="media tm-notification-item">
-                                <div class="tm-gray-circle"><img src="img/notification-03.jpg" alt="Avatar Image" class="rounded-circle"></div>
-                                <div class="media-body">
-                                    <p class="mb-2"><b>Sophie</b> and <b>6 others</b> sent you <a href="#"
-                                            class="tm-notification-link">product updates</a>.</p>
-                                    <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                </div>
-                            </div>
-                            <div class="media tm-notification-item">
-                                <div class="tm-gray-circle"><img src="img/notification-01.jpg" alt="Avatar Image" class="rounded-circle"></div>
-                                <div class="media-body">
-                                    <p class="mb-2"><b>Lily A</b> and <b>6 others</b> sent you <a href="#"
-                                            class="tm-notification-link">product updates</a>.</p>
-                                    <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                </div>
-                            </div>
-                            <div class="media tm-notification-item">
-                                <div class="tm-gray-circle"><img src="img/notification-02.jpg" alt="Avatar Image" class="rounded-circle"></div>
-                                <div class="media-body">
-                                    <p class="mb-2"><b>Amara</b> and <b>6 others</b> sent you <a href="#"
-                                            class="tm-notification-link">product updates</a>.</p>
-                                    <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                </div>
-                            </div>
-                            <div class="media tm-notification-item">
-                                <div class="tm-gray-circle"><img src="img/notification-03.jpg" alt="Avatar Image" class="rounded-circle"></div>
-                                <div class="media-body">
-                                    <p class="mb-2"><b>Cinthela</b> and <b>6 others</b> sent you <a href="#"
-                                            class="tm-notification-link">product updates</a>.</p>
-                                    <span class="tm-small tm-text-color-secondary">6h ago.</span>
-                                </div>
-                            </div>
+
+
+
+
                         </div>
                     </div>
                 </div>
                 <div class="col-12 tm-block-col">
                     <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
+
+
                         <h2 class="tm-block-title">Orders List</h2>
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th scope="col">ORDER NO.</th>
                                     <th scope="col">STATUS</th>
-                                    <th scope="col">OPERATORS</th>
+                                    <th scope="col">E-MAIL</th>
                                     <th scope="col">LOCATION</th>
-                                    <th scope="col">DISTANCE</th>
+                                    <th scope="col">TOTAL ITEM</th>
                                     <th scope="col">START DATE</th>
-                                    <th scope="col">EST DELIVERY DUE</th>
+                                    <th scope="col">ORDER TOTAL</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($orders as $order)
+
                                 <tr>
-                                    <th scope="row"><b>#122349</b></th>
+                                    <th scope="row"><b>{{$order->order_no}}</b></th>
                                     <td>
                                         <div class="tm-status-circle moving">
-                                        </div>Moving
+                                        </div>{{$order->status}}
                                     </td>
-                                    <td><b>Oliver Trag</b></td>
-                                    <td><b>London, UK</b></td>
-                                    <td><b>485 km</b></td>
-                                    <td>16:00, 12 NOV 2018</td>
-                                    <td>08:00, 18 NOV 2018</td>
+                                    <td><b>{{$order->user->email}}</b></td>
+                                    <td><b>{{$order->location}}</b></td>
+                                    <td><b>{{$order->orderItems->count()}} Products</b></td>
+                                    <td>{{$order->created_at}}</td>
+                                    <td>${{$order->total_amount}}</td>
                                 </tr>
-                                <tr>
-                                    <th scope="row"><b>#122348</b></th>
-                                    <td>
-                                        <div class="tm-status-circle pending">
-                                        </div>Pending
-                                    </td>
-                                    <td><b>Jacob Miller</b></td>
-                                    <td><b>London, UK</b></td>
-                                    <td><b>360 km</b></td>
-                                    <td>11:00, 10 NOV 2018</td>
-                                    <td>04:00, 14 NOV 2018</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><b>#122347</b></th>
-                                    <td>
-                                        <div class="tm-status-circle cancelled">
-                                        </div>Cancelled
-                                    </td>
-                                    <td><b>George Wilson</b></td>
-                                    <td><b>London, UK</b></td>
-                                    <td><b>340 km</b></td>
-                                    <td>12:00, 22 NOV 2018</td>
-                                    <td>06:00, 28 NOV 2018</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><b>#122346</b></th>
-                                    <td>
-                                        <div class="tm-status-circle moving">
-                                        </div>Moving
-                                    </td>
-                                    <td><b>William Aung</b></td>
-                                    <td><b>London, UK</b></td>
-                                    <td><b>218 km</b></td>
-                                    <td>15:00, 10 NOV 2018</td>
-                                    <td>09:00, 14 NOV 2018</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><b>#122345</b></th>
-                                    <td>
-                                        <div class="tm-status-circle pending">
-                                        </div>Pending
-                                    </td>
-                                    <td><b>Harry Ryan</b></td>
-                                    <td><b>London, UK</b></td>
-                                    <td><b>280 km</b></td>
-                                    <td>15:00, 11 NOV 2018</td>
-                                    <td>09:00, 17 NOV 2018</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><b>#122344</b></th>
-                                    <td>
-                                        <div class="tm-status-circle pending">
-                                        </div>Pending
-                                    </td>
-                                    <td><b>Michael Jones</b></td>
-                                    <td><b>London, UK</b></td>
-                                    <td><b>218 km</b></td>
-                                    <td>18:00, 12 OCT 2018</td>
-                                    <td>06:00, 18 OCT 2018</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><b>#122343</b></th>
-                                    <td>
-                                        <div class="tm-status-circle moving">
-                                        </div>Moving
-                                    </td>
-                                    <td><b>Timmy Davis</b></td>
-                                    <td><b>London, UK</b></td>
-                                    <td><b>218 km</b></td>
-                                    <td>12:00, 10 OCT 2018</td>
-                                    <td>08:00, 18 OCT 2018</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><b>#122342</b></th>
-                                    <td>
-                                        <div class="tm-status-circle moving">
-                                        </div>Moving
-                                    </td>
-                                    <td><b>Oscar Phyo</b></td>
-                                    <td><b>London, UK</b></td>
-                                    <td><b>420 km</b></td>
-                                    <td>15:30, 06 OCT 2018</td>
-                                    <td>09:30, 16 OCT 2018</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><b>#122341</b></th>
-                                    <td>
-                                        <div class="tm-status-circle moving">
-                                        </div>Moving
-                                    </td>
-                                    <td><b>Charlie Brown</b></td>
-                                    <td><b>London, UK</b></td>
-                                    <td><b>300 km</b></td>
-                                    <td>11:00, 10 OCT 2018</td>
-                                    <td>03:00, 14 OCT 2018</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><b>#122340</b></th>
-                                    <td>
-                                        <div class="tm-status-circle cancelled">
-                                        </div>Cancelled
-                                    </td>
-                                    <td><b>Wilson Cookies</b></td>
-                                    <td><b>London, UK</b></td>
-                                    <td><b>218 km</b></td>
-                                    <td>17:30, 12 OCT 2018</td>
-                                    <td>08:30, 22 OCT 2018</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row"><b>#122339</b></th>
-                                    <td>
-                                        <div class="tm-status-circle moving">
-                                        </div>Moving
-                                    </td>
-                                    <td><b>Richard Clamon</b></td>
-                                    <td><b>London, UK</b></td>
-                                    <td><b>150 km</b></td>
-                                    <td>15:00, 12 OCT 2018</td>
-                                    <td>09:20, 26 OCT 2018</td>
-                                </tr>
+
+                                @endforeach
+
                             </tbody>
                         </table>
                     </div>

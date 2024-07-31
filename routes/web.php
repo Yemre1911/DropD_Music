@@ -6,15 +6,18 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Brand_controller;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Web_Controller;
 
     Route::get('/', [Web_Controller::class, 'index']) ->name('anasayfa');
+    Route::get('/404', [Web_Controller::class, 'page404']) ->name('404');
+    Route::get('/search', [Web_Controller::class, 'search']) ->name('search');
+
 
     // --------------------------------------------------------
 
-Route::get('/show_temp', function () {
-    return view('show');   }) ->name('show.index');
+
 
 // ============ ADMIN ROUTES ====================================================================
             Route::get('/admin', function () {
@@ -77,6 +80,12 @@ Route::get('/show_temp', function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
         Route::post('products/{product}/comments', [CommentController::class, 'store'])->middleware('auth');
+
+        Route::get('/payment', [PaymentController::class, 'index'])->name('payment_page');
+
+        Route::post('/payment', [PaymentController::class, 'payment'])->name('payment_function');
+
+
 
 
 

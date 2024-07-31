@@ -1,4 +1,13 @@
 @include('layouts.header2', ['brands' => $brands, 'products' => $products]);
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <style>
     .close {
         background-color: #ff0000; /* Kırmızı arka plan rengi */
@@ -44,6 +53,9 @@
                             </ul>
                             <div class="delivery">
                                 <p>Price : ${{ $item->product->price }}</p>
+                                @if ($item->product->stock == 0)
+                                <p class="color" style="color: red; font-weight: bold;">Out of Stock</p>
+                                @endif
                                 <span>Delivered in 2-3 business days</span>
                                 <div class="clearfix"></div>
                             </div>
@@ -104,7 +116,7 @@
 			   <div class="clearfix"> </div>
 			 </ul>
 			 <div class="clearfix"></div>
-			 <a class="order" href="#">Place Order</a>
+			 <a class="order" href="{{route('payment_page')}}">Place Order</a>
 			 <div class="total-item">
 				 <h3>OPTIONS</h3>
 				 <h4>COUPONS</h4>

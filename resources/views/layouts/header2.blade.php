@@ -102,8 +102,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
        <!-- start search-->
            <div class="search-box">
               <div id="sb-search" class="sb-search">
-                 <form>
-                    <input class="sb-search-input" placeholder="Enter your search term..." type="search" name="search" id="search">
+                <form action="{{route('search')}}" method="GET">
+                    <input class="sb-search-input" placeholder="Enter your search term..." type="search" name="query" id="search">
                     <input class="sb-search-submit" type="submit" value="">
                     <span class="sb-icon-search"> </span>
                  </form>
@@ -255,7 +255,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         </li>
            <li><a class="color10" href="{{route('brands_page')}}">Brands</a></li>
            <li><a class="color3" href="{{route('sale_page')}}">Sale</a></li>
-           <li><a class="color7" href="404.html">News</a></li>
+           <li><a class="color7" href="{{route('404')}}">News</a></li>
            <div class="clearfix"> </div>
        </ul>
        </div>

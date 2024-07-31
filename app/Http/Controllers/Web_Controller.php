@@ -17,6 +17,22 @@ class Web_Controller extends Controller
         return view('index')->with('brands', $brands)->with('products', $products);
     }
 
+    public function page404()
+    {
+        $brands = Brand::all();
+        $products = Product::all();
+
+        return view('404')->with('brands', $brands)->with('products', $products);
+    }
+
+    public function payment()
+    {
+        $brands = Brand::all();
+        $products = Product::all();
+
+        return view('payment')->with('brands', $brands)->with('products', $products);
+    }
+
     public function brands()
     {
         $brands = Brand::paginate(4);
@@ -29,6 +45,17 @@ class Web_Controller extends Controller
         get(): Bu metod, sorguyu çalıştırır ve sonuçları bir koleksiyon olarak döner. */
 
         return view('brands')->with('brands', $brands)->with('products', $products);
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $products = Product::where('model', 'LIKE', "%{$query}%")
+                            ->orWhere('features', 'LIKE', "%{$query}%")
+                            ->paginate(6);
+
+        $brands = Brand::all();
+        return view('guitars')->with('brands', $brands)->with('products', $products);
     }
 
     public function guitars()

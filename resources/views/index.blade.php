@@ -1,6 +1,12 @@
 
 
+@if (session('message'))
+    <div class="alert alert-success">
+        {{ session('message') }}
+    </div>
+@endif
 @include('layouts.header',['brands' => $brands, 'products'=>$products]);
+
    <div class="main">
     <div class="container">
     	<ul class="content-home">

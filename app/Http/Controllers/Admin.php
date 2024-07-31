@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Brand;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 
 
 class Admin extends Controller
@@ -57,7 +59,11 @@ class Admin extends Controller
     public function index()
     {
         if($this->isAdmin()) {
-            return view('admin/index_admin');
+            $products = Product::all();
+            $order = Order::all();
+            $user = User::all();
+            $brands = Brand::all();
+            return view('admin/index_admin')->with('orders',$order)->with('products',$products)->with('users',$user)->with('brands',$brands);
         } else {
             return redirect()->route('admin_login');
         }

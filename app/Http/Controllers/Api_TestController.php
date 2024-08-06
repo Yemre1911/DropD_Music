@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Auth;
 
 class Api_TestController extends Controller
 {
@@ -61,5 +62,58 @@ class Api_TestController extends Controller
             $objects = $model->select('id', $whereColumn)->get();
             return response()->json($objects);
         }
+    }
+
+    public function tokenFunc(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string'
+        ]);
+
+        if (auth()->attempt(['email' => $validated['email'], 'password' => $validated['password']])) {
+            $user = User::where('email', $validated['email'])->first();
+
+            // Token oluştur
+            $token = $user->createToken('DropD')->plainTextToken;
+
+            // Token'ı döndür
+            return response()->json(['token' => $token]);
+        }
+
+        // Kimlik doğrulama başarısızsa hata döndür
+        return response()->json(['message' => 'Invalid credentials'], 401);
+    }
+
+    public function update(Request $request)
+    {
+        $validated = $request->validate([
+
+            'id' => 'required|numeric',
+            'goal' => 'required|string'
+        ]);
+        $id = $validated['id'];
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        $goal=$validated['goal'];
+
+        switch ($goal) {
+            case 'comments':
+                return response()->json(['comments' => $user->comments]);
+            case 'cart':
+                $cart = $user->cart;
+                $cartItems = $cart->items;
+                return response()->json(['cart_items' => $cartItems]);
+
+            case 'address':
+                return response()->json(['address' => $user->address]);
+
+            default:
+                return response()->json(['message' => 'Invalid operation'], 400);
+        }
+        return response($goal);
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 
 class AuthController extends Controller
@@ -34,7 +34,8 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-                return redirect()->route('login_page')->with('success', 'Registration successful!');
+        $token = $user->createToken('MyApp')->plainTextToken;
+        return redirect()->route('login_page')->with('success', 'Registration successful!');
 
     }
 
@@ -64,6 +65,5 @@ class AuthController extends Controller
         request()->session()->invalidate();          // geçersiz kılmak, şu anki oturumu
         request()->session()->regenerateToken();    //csrf tokenini yeniler, günvelik için yapılır
         return redirect()->route('anasayfa');
-
     }
 }

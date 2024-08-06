@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        if (Auth::check())
+        if (Auth::user())
         {
             $user=Auth::user();
-            if($user->is_admin === 1)
+            if($user->is_admin == 1)
             return $next($request);
         }
-
         return redirect()->route('admin_login');
     }
 }

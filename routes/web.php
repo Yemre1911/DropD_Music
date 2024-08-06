@@ -1,6 +1,5 @@
 <?php
 
-namespace App\Http\Middleware;
 
 
 use Illuminate\Support\Facades\Route;
@@ -12,6 +11,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Web_Controller;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\CountryMiddleware;
 
 Route::get('/', [Web_Controller::class, 'index'])->name('anasayfa');
 Route::get('/404', [Web_Controller::class, 'page404'])->name('404');
@@ -29,7 +30,7 @@ Route::get('/admin', function () {
 
 Route::post('/admin/login', [Admin::class, 'login'])->name('login_admin');
 
-Route::group(['middleware' => ['auth', 'admin']], function () {
+Route::middleware(AdminMiddleware::class)->group(function () {
 
     Route::get('/admin/index_admin', [Admin::class, 'index'])->name('admin_index');
 
@@ -64,14 +65,13 @@ Route::get('/filter_guitar', [Web_Controller::class, 'filter_guitar'])->name('fi
 
 Route::get('/amps', [Web_Controller::class, 'amps'])->name('amps_page');
 
-Route::get('/sale', [Web_Controller::class, 'sale'])->name('sale_page');
-
 Route::get('/cart', [CartController::class, 'index'])->name('cart_page');
 
 Route::post('/cart', [CartController::class, 'add'])->name('cart_add');
 
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
 
+Route::get('/sale', [Web_Controller::class, 'sale'])->name('sale_page'); //->middleware(CountryMiddleware::class);;
 
 Route::get('/product/{model}', [Web_Controller::class, 'product_show'])->name('product.show');
 
@@ -90,18 +90,6 @@ Route::post('products/{product}/comments', [CommentController::class, 'store'])-
 Route::get('/payment', [PaymentController::class, 'index'])->name('payment_page');
 
 Route::post('/payment', [PaymentController::class, 'payment'])->name('payment_function');
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

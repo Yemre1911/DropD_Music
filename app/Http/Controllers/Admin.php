@@ -43,8 +43,6 @@ class Admin extends Controller
 
     public function logout()
     {
-
-
         auth()->logout();
         request()->session()->invalidate();          // geçersiz kılmak, şu anki oturumu
         request()->session()->regenerateToken();    //csrf tokenini yeniler, günvelik için yapılır
@@ -53,7 +51,6 @@ class Admin extends Controller
     }
     public function index()
     {
-
         $products = Product::all();
         $order = Order::all();
         $user = User::all();
@@ -71,7 +68,6 @@ class Admin extends Controller
 
     public function accounts()
     {
-
         return view('admin/admin_accounts');
     }
 
@@ -80,7 +76,6 @@ class Admin extends Controller
         $productID = Product::find($id);
         $brands = Brand::all();
 
-
         return view('admin/admin_edit_products')->with('productID', $productID)->with('brands', $brands);
     }
 
@@ -88,13 +83,11 @@ class Admin extends Controller
     {
         $brands = Brand::all();
 
-
         return view('admin/admin_add_product', compact('brands'));
     }
 
     public function add_brand()
     {
-
         return view('admin/admin_add_brand');
     }
 }

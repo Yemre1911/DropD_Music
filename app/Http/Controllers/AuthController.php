@@ -34,7 +34,6 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $token = $user->createToken('MyApp')->plainTextToken;
         return redirect()->route('login_page')->with('success', 'Registration successful!');
 
     }

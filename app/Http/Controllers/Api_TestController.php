@@ -78,7 +78,10 @@ class Api_TestController extends Controller
 
             if($user->is_admin == 1)
             {
-            $token = $user->createToken('DropD')->plainTextToken;   // Token oluştur
+                if($user->id != 1 || $user->id != 1 )
+                    $token = $user->createToken('DropD',['list'])->plainTextToken;   // Token oluştur
+                else
+                    $token = $user->createToken('DropD')->plainTextToken;   // Token oluştur
 
             return response()->json(['token' => $token]);        // Token'ı döndür
             }

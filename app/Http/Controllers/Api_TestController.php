@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class Api_TestController extends Controller
 {
@@ -71,18 +72,30 @@ class Api_TestController extends Controller
             'password' => 'required|string'
         ]);
 
-        if (auth()->attempt(['email' => $validated['email'], 'password' => $validated['password']])) {
+        if (auth()->attempt(['email' => $validated['email'], 'password' => $validated['password']]))
+        {
             $user = User::where('email', $validated['email'])->first();
 
-            // Token oluştur
-            $token = $user->createToken('DropD')->plainTextToken;
+            if($user->is_admin == 1)
+            {
+            $token = $user->createToken('DropD')->plainTextToken;   // Token oluştur
 
-            // Token'ı döndür
-            return response()->json(['token' => $token]);
+            return response()->json(['token' => $token]);        // Token'ı döndür
+            }
+            else
+            {
+                return response()->json(['message:' => 'This User Is Not An Admin!']);
+            }
         }
 
         // Kimlik doğrulama başarısızsa hata döndür
         return response()->json(['message' => 'Invalid credentials'], 401);
+    }
+
+    public function showTokens()
+    {
+        $tokens = PersonalAccessToken::all();
+        return response()->json($tokens);
     }
 
     public function update(Request $request)

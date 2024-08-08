@@ -73,6 +73,7 @@
                 <div class="form-group mb-3">
                   <label for="price">Price (USD)</label>
                   <input id="price" name="price" type="number" class="form-control validate" required>
+                  <small id="priceError" class="form-text text-danger" style="display: none;">Price cannot exceed 6 digits</small>
                 </div>
                 <div class="form-group mb-3">
                   <label for="brand">Brand</label>
@@ -196,6 +197,21 @@
       }
     }
   </script>
+  <script>
+    document.getElementById('price').addEventListener('input', function (e) {
+        const priceInput = e.target;
+        const priceError = document.getElementById('priceError');
+
+        if (priceInput.value.length > 6) {
+            priceError.style.display = 'block';
+            priceInput.setCustomValidity('Price cannot exceed 6 digits');
+        } else {
+            priceError.style.display = 'none';
+            priceInput.setCustomValidity('');
+        }
+    });
+    </script>
+
 </body>
 
 </html>

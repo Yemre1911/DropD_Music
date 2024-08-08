@@ -6,7 +6,7 @@ use App\Http\Controllers\Api_UserController;
 use App\Http\Controllers\Api_TestController;
 use App\Http\Middleware\ApiTokenMiddleware;
 use App\Http\Middleware\BasicAuthMiddleware;
-use App\Http\Middleware\CheckTokenAbilities;
+use App\Http\Middleware\CheckAbilitiesMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,19 +18,19 @@ use Illuminate\Support\Facades\Route;
     // USERS API ENDPOINTS   (Only with Token Authantication)
     Route::middleware(ApiTokenMiddleware::class)->group(function(){
 
-            Route::get('/users', [Api_UserController::class, 'index'])->middleware('auth:sanctum');  // List all users
-            Route::get('/users/{id}', [Api_UserController::class, 'findOne'])->middleware('auth:sanctum');  // Find user by ID
-            Route::delete('/users/{id}', [Api_UserController::class, 'destroy'])->middleware('auth:sanctum');  // Delete user by ID
-            Route::put('/users/{id}', [Api_UserController::class, 'update'])->middleware('auth:sanctum');  // update user by ID
+            Route::get('/users', [Api_UserController::class, 'index']);  // List all users
+            Route::get('/users/{id}', [Api_UserController::class, 'findOne']);  // Find user by ID
+            Route::delete('/users/{id}', [Api_UserController::class, 'destroy'])->middleware(CheckAbilitiesMiddleware::class);  // Delete user by ID
+            Route::put('/users/{id}', [Api_UserController::class, 'update'])->middleware(CheckAbilitiesMiddleware::class);  // update user by ID
 
-            Route::get('/tokens', [Api_TestController::class, 'showTokens'])->middleware('auth:sanctum');  // Find user by ID
+            Route::get('/tokens', [Api_TestController::class, 'showTokens'])->middleware(CheckAbilitiesMiddleware::class);  // Find user by ID
 
                         // PRODUCTS API ENDPOINTS
 
             Route::get('/products', [Api_ProductsController::class, 'index']);  // List all products
             Route::get('/products/{id}', [Api_ProductsController::class, 'findOne']); // Find product by ID
-            Route::put('/products/{id}', [Api_ProductsController::class, 'update']); // Update product by ID
-            Route::delete('/products/{id}', [Api_ProductsController::class, 'destroy']); // Delete product by ID
+            Route::put('/products/{id}', [Api_ProductsController::class, 'update'])->middleware(CheckAbilitiesMiddleware::class); // Update product by ID
+            Route::delete('/products/{id}', [Api_ProductsController::class, 'destroy'])->middleware(CheckAbilitiesMiddleware::class); // Delete product by ID
     });
 
 

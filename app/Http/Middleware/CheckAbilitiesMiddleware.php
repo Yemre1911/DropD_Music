@@ -2,6 +2,7 @@
 
 // app/Http/Middleware/CheckAbilities.php
 namespace App\Http\Middleware;
+
 use Illuminate\Support\Facades\Log;  // Log sınıfını import ettik
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -10,26 +11,24 @@ use Illuminate\Http\Request;
 
 class CheckAbilitiesMiddleware
 {
-    public function handle(Request $request, Closure $next)
+
+    public function handle(Request $request, Closure $next, $ability)
     {
         $user = $request->user();
         $token = $request->bearerToken();
 
-        //Log::info("TEST");
-        //Log::info("User Object:", ['user' => $user]);
-        //Log::info("Bearer Token:", ['token' => $token]);
+        Log::info("Requested Ability (in handle): " .$ability);
+
 
         if ($token) {
             // Token'ı hash'le ve veritabanında ara
             $tokenRecord = PersonalAccessToken::where('token', hash('sha256', $token))->first();
 
-            if ($tokenRecord) {
+            if ($tokenRecord && $tokenRecord->can($ability)) {
                 // Token izinlerini logla
-                Log::info('Kullanıcı yetkileri:', ['abilities' => $tokenRecord->abilities]);
+                Log::info('Kullanici yetkileri:', ['abilities' => $tokenRecord->abilities]);
 
-                if ($tokenRecord->can('*')) {
-                    return $next($request);
-                }
+                return $next($request);
             }
         }
 

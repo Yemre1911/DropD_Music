@@ -46,6 +46,20 @@
                       </td>
                     </tr>
                     @endforeach
+                    @foreach ($tshirts as $tshirt)
+                    <tr data-id="">
+                        <th scope="row"><input type="checkbox" /></th>
+                        <td class="tm-product-name">{{ $tshirt->name }}</td>
+                        <td> No Product Code</td>
+                        <td>{{ $tshirt->stock }}</td>
+                        <td>T-Shirt</td>
+                        <td>
+                          <a href="{{ route('edit_tshirt', ['id' => $tshirt->id]) }}" class="tm-product-delete-link">
+                            <img src="{{ asset('images/search.png') }}" class="tm-product-delete-icon" alt="Search Icon" />
+                          </a>
+                        </td>
+                      </tr>
+                    @endforeach
                 </tbody>
               </table>
             </div>
@@ -53,6 +67,9 @@
             <a
               href="{{route('add_product')}}"
               class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
+              <a
+              href="{{route('add_tshirt')}}"
+              class="btn btn-primary btn-block text-uppercase mb-3">Add new tshirt</a>
             <button class="btn btn-primary btn-block text-uppercase">
               Delete selected products
             </button>

@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Brand_controller;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\TShirtController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Web_Controller;
@@ -50,6 +51,13 @@ Route::middleware(AdminMiddleware::class)->group(function () {
 
     Route::get('/admin/logout', [Admin::class, 'logout'])->name('admin_logout');
 
+    Route::get('/add_tshirt', [Admin::class, 'add_tshirt'])->name('add_tshirt');
+
+    Route::post('/add_tshirt', [TShirtController::class, 'store'])->name('tshirt.store');
+
+    Route::get('/edit_tshirt/{id?}', [Admin::class, 'edit_tshirt'])->name('edit_tshirt');
+
+    Route::put('/update_tshirt/{id?}', [TshirtController::class, 'update'])->name('update_tshirt');
 
     Route::post('/add_brand', [Brand_Controller::class, 'add_brand'])->name('add_brand');
 });

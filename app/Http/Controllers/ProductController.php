@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function store(Request $request, $id = null)
     {
-        //dd($request->all());
+        //  dd($request->all());
 
         $request->validate([
             'model' => 'required|string',

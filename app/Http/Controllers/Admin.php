@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Stock;
 use App\Models\User;
+use App\Models\Tshirt;
+
 
 
 class Admin extends Controller
@@ -62,8 +65,9 @@ class Admin extends Controller
     {
         $brands = Brand::all();
         $products = Product::all();
+        $tshirts = Tshirt::all();
 
-        return view('admin/products_admin')->with('brands', $brands)->with('products', $products);
+        return view('admin/products_admin')->with('brands', $brands)->with('products', $products)->with('tshirts', $tshirts);
     }
 
     public function accounts()
@@ -79,6 +83,15 @@ class Admin extends Controller
         return view('admin/admin_edit_products')->with('productID', $productID)->with('brands', $brands);
     }
 
+    public function edit_tshirt($id)
+    {
+        // Ürünü, ilişkili varyasyonları ve varyasyonların stoklarını çekiyoruz
+        $tshirt = Tshirt::with(['variants.stock'])->find($id); // 'variations' ve 'stock' ilişkilerini yükle
+        $brands = Brand::select('name')->get();
+
+        return view('admin/admin_edit_tshirt', compact('tshirt', 'brands'));
+    }
+
     public function add_product()
     {
         $brands = Brand::all();
@@ -89,5 +102,12 @@ class Admin extends Controller
     public function add_brand()
     {
         return view('admin/admin_add_brand');
+    }
+
+    public function add_tshirt()
+    {
+        $brands = Brand::all();
+        $products = Product::all();
+        return view('admin/admin_add_tshirt')->with('brands', $brands)->with('products', $products);
     }
 }

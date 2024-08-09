@@ -17,17 +17,9 @@ class Api_BrandController extends Controller
     {
 
         $validated = $request->validate([
-            'model' => 'sometimes|string',
-            'price' => 'sometimes|numeric',
-            'sale' => 'sometimes|nullable|numeric', // sale alanı zorunlu değil
-            'brand' => 'sometimes|string',
-            'type' => 'sometimes|string',
-            'symmetry' => 'sometimes|string',
-            'features' => 'sometimes|string',
-            'stock' => 'sometimes|integer',
-            'color' => 'sometimes|string',
-            'main_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'extra_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'name' => 'sometimes|string',
+            'info' => 'sometimes|string',
+
         ]);
 
         $id->update($validated);
